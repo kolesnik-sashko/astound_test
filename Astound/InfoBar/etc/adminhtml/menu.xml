@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Astound_Infobar::main"
+             resource="Astound_Infobar::notification"
+             parent="Magento_Backend::marketing"
+             title="Notifications"
+             module="Astound_InfoBar"
+             sortOrder="10"
+        />
+        <add id="Astound_Infobar::notification"
+             resource="Astound_Infobar::notification"
+             parent="Astound_Infobar::main"
+             title="Top Information Bar"
+             action="astound_notification/index/index"
+             module="Astound_InfoBar"
+             sortOrder="10"
+        />
+    </menu>
+</config>
