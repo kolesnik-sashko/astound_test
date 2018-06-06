@@ -11,60 +11,93 @@ use Astound\InfoBar\Api\NotificationRepositoryInterface;
 use Astound\InfoBar\Api\Data\NotificationInterface;
 use Astound\InfoBar\Model\NotificationFactory;
 use Astound\InfoBar\Model\ResourceModel\Notification\CollectionFactory;
+use Astound\InfoBar\Model\ResourceModel\Notification as ResourceModel;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
     protected $objectFactory;
+
     protected $collectionFactory;
+
+    protected $searchResultsFactory;
+
+    protected $resourceModel;
+
     public function __construct(
         NotificationFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory       
+        SearchResultsInterfaceFactory $searchResultsFactory,
+        ResourceModel $resourceModel
     )
     {
         $this->objectFactory        = $objectFactory;
         $this->collectionFactory    = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
+        $this->resourceModel        = $resourceModel;
     }
-    
-    public function save(NotificationInterface $object)
+
+    /**
+     * @param NotificationInterface $notification
+     * @return NotificationInterface
+     * @throws CouldNotSaveException
+     */
+    public function save(NotificationInterface $notification)
     {
-        try
-        {
-            $object->save();
+        try {
+            $this->resourceModel->save($notification);
         }
         catch(\Exception $e)
         {
             throw new CouldNotSaveException(__($e->getMessage()));
         }
-        return $object;
+
+        return $notification;
     }
 
-    public function getById($id)
+    /**
+     * @param $id
+     * @return Notification
+     * @throws NoSuchEntityException
+     */
+    public function get($id)
     {
-        $object = $this->objectFactory->create();
-        $object->load($id);
-        if (!$object->getId()) {
+        $notification = $this->getNotificationObject();
+        $this->resourceModel->load($notification, $id);
+        if (!$notification->getId()) {
             throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $id));
         }
-        return $object;        
-    }       
 
-    public function delete(NotificationInterface $object)
+        return $notification;
+    }
+
+    /**
+     * @param NotificationInterface $object
+     * @return NotificationRepositoryInterface
+     * @throws CouldNotDeleteException
+     */
+    public function delete(NotificationInterface $notification)
     {
         try {
-            $object->delete();
+            $this->resourceModel->delete($notification);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
-        return true;    
-    }    
+        return $this;
+    }
 
+    /**
+     * @param $id
+     * @return NotificationRepositoryInterface
+     */
     public function deleteById($id)
     {
-        return $this->delete($this->getById($id));
-    }    
+        return $this->delete($this->get($id));
+    }
 
+    /**
+     * @param SearchCriteriaInterface $criteria
+     * @return \Magento\Framework\Api\SearchResultsInterface
+     */
     public function getList(SearchCriteriaInterface $criteria)
     {
         $searchResults = $this->searchResultsFactory->create();
@@ -101,5 +134,13 @@ class NotificationRepository implements NotificationRepositoryInterface
         }
         $searchResults->setItems($objects);
         return $searchResults;        
+    }
+
+    /**
+     * @return Notification
+     */
+    protected function getNotificationObject()
+    {
+        return $this->objectFactory->create();
     }
 }
