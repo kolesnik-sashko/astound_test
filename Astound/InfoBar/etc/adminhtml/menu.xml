@@ -12,7 +12,7 @@
              resource="Astound_Infobar::notification"
              parent="Astound_Infobar::main"
              title="Top Information Bar"
-             action="astound_notification/index/index"
+             action="astound_notification/notification/index"
              module="Astound_InfoBar"
              sortOrder="10"
         />

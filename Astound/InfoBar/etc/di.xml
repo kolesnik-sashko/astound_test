@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Astound\InfoBar\Api\NotificationRepositoryInterface"
+                type="Astound\InfoBar\Model\NotificationRepository" />
+    <preference for="Astound\InfoBar\Api\Data\NotificationInterface"
+                type="Astound\InfoBar\Model\Notification" />
+</config>
