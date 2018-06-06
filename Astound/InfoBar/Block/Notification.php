@@ -39,7 +39,15 @@ class Notification extends Template
      */
     protected $notifications;
 
-
+    /**
+     * Notification constructor.
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param NotificationRepositoryInterface $repository
+     * @param SortOrderBuilder $sortOrderBuilder
+     * @param FilterBuilder $filterBuilder
+     * @param Context $context
+     * @param array $data
+     */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         NotificationRepositoryInterface $repository,
