@@ -2,6 +2,7 @@
 
 namespace Astound\InfoBar\Block;
 
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -9,6 +10,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 
 use Astound\InfoBar\Api\NotificationRepositoryInterface;
+use Astound\InfoBar\Api\Schema\NotificationInterface as SchemaInterface;
 
 class Notification extends Template
 {
@@ -23,6 +25,11 @@ class Notification extends Template
     protected $sortOrderBuilder;
 
     /**
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @var NotificationRepositoryInterface
      */
     protected $repository;
@@ -32,23 +39,18 @@ class Notification extends Template
      */
     protected $notifications;
 
-    /**
-     * Notification constructor.
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param NotificationRepositoryInterface $repository
-     * @param SortOrderBuilder $sortOrderBuilder
-     * @param Context $context
-     * @param array $data
-     */
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         NotificationRepositoryInterface $repository,
         SortOrderBuilder $sortOrderBuilder,
+        FilterBuilder $filterBuilder,
         Context $context,
         array $data = []
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sortOrderBuilder      = $sortOrderBuilder;
+        $this->filterBuilder         = $filterBuilder;
         $this->repository            = $repository;
         $this->notifications         = $this->getNotifications();
         parent::__construct($context, $data);
@@ -60,6 +62,8 @@ class Notification extends Template
     public function getNotifications()
     {
         if(!$this->notifications){
+            $filters[] = $this->filterBuilder->setField(SchemaInterface::STATUS_FIELD)->setValue(1)->create();
+            $this->searchCriteriaBuilder->addFilters($filters);
             $sortOrder = $this->sortOrderBuilder->setField('sort_order')->setDirection(SortOrder::SORT_ASC)->create();
             $this->searchCriteriaBuilder->setSortOrders([$sortOrder]);
             $searchCriteria = $this->searchCriteriaBuilder->setCurrentPage(1)->create();
