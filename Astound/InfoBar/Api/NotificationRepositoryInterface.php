@@ -7,13 +7,13 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 
 interface NotificationRepositoryInterface 
 {
-    public function save(NotificationInterface $page);
+    public function save(NotificationInterface $notification);
 
-    public function getById($id);
+    public function get($id);
 
     public function getList(SearchCriteriaInterface $criteria);
 
-    public function delete(NotificationInterface $page);
+    public function delete(NotificationInterface $notification);
 
     public function deleteById($id);
 }
