@@ -6,25 +6,34 @@ use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 
+use Astound\InfoBar\Helper\Data;
 use Astound\InfoBar\Model\NotificationFactory;
 
 class InstallData implements InstallDataInterface
 {
-    protected $_factory;
+    protected $factory;
 
-    public function __construct(NotificationFactory $factory)
+    protected $helper;
+
+    public function __construct(
+        NotificationFactory $factory,
+        Data $helper
+    )
     {
-        $this->_factory = $factory;
+        $this->factory = $factory;
+        $this->helper  = $helper;
     }
 
     public function install(
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
-        for ($i = 0; $i < 10; $i++){
-            $note = $this->_factory->create();
-            $note->setTitle('Title #' . $i)
-                 ->setContent('Content #' . $i)
+        for ($i = 1; $i <= 10; $i++){
+            $notification = $this->factory->create();
+            $notification->setTitle('Title #' . $i)
+                 ->setContent($this->helper->getTestContent($i))
+                 ->setBackgroundColor('6AE131')
+                 ->setOrder(rand(1, 10))
                  ->save();
         }
     }

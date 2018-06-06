@@ -49,6 +49,19 @@ class InstallSchema implements InstallSchemaInterface
                 'default' => '1'
             ],
             'Is Enabled'
+        )->addColumn(
+            SchemaInterface::BACKGROUND_COLOR_FIELD,
+            Table::TYPE_TEXT,
+            6,
+            []
+        )->addColumn(
+            SchemaInterface::ORDER_FIELD,
+            Table::TYPE_INTEGER,
+            null,
+            [
+                'nullable' => false,
+                'default' => '0'
+            ]
         );
         $installer->getConnection()->createTable($table);
         $installer->endSetup();
