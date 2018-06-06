@@ -12,6 +12,10 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper
 {
+    /**
+     * @param $id integer
+     * @return string
+     */
     public function getTestContent($id)
     {
         return <<<CONTENT

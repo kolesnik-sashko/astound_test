@@ -4,11 +4,14 @@ namespace Astound\InfoBar\Model\Notification;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 
+use Astound\InfoBar\Model\ResourceModel\Notification\Collection;
 use Astound\InfoBar\Model\ResourceModel\Notification\CollectionFactory;
 
 class DataProvider extends AbstractDataProvider
 {
-
+    /**
+     * @var Collection
+     */
     protected $collection;
 
     /**

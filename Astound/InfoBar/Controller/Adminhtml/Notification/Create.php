@@ -10,6 +10,7 @@ class Create extends AbstractAction
     const PAGE_TITLE        = 'Add Notification';
     const BREADCRUMB_TITLE  = 'Add Notification';
 
+    /** {@inheritdoc} */
     public function execute()
     {
         $model = $this->getModel();

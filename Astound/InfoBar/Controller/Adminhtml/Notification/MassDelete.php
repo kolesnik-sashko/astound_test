@@ -8,12 +8,17 @@
 
 namespace Astound\InfoBar\Controller\Adminhtml\Notification;
 
+use Magento\Framework\App\ResponseInterface;
+
 use Astound\InfoBar\Controller\Adminhtml\AbstractAction;
 
 class MassDelete extends AbstractAction
 {
     const ACL_RESOURCE = 'Astound_Infobar::notification_delete';
 
+    /**
+     * @return ResponseInterface
+     */
     public function execute()
     {
         $ids = $this->getRequest()->getParam('selected');

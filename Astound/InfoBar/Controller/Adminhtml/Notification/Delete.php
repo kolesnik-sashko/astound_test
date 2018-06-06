@@ -2,41 +2,36 @@
 
 namespace Astound\InfoBar\Controller\Adminhtml\Notification;
 
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+
 use Astound\InfoBar\Controller\Adminhtml\AbstractAction;
 
 class Delete extends AbstractAction
 {
     const ACL_RESOURCE = 'Astound_Infobar::notification_delete';
 
+    /**
+     * @return ResponseInterface | ResultInterface
+     */
     public function execute()
     {
-        // check if we know what should be deleted
-        $id = $this->getRequest()->getParam('id');
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
-        $resultRedirect = $this->resultRedirectFactory->create();
-        if ($id) {
-            $title = "";
+        $id = $this->getRequest()->getParam(static::QUERY_PARAM_ID);
+        if (!empty($id)) {
             try {
-                // init model and delete
-                $model = $this->_objectManager->create('Astound\InfoBar\Model\Notification');
-                $model->load($id);
-                $model->delete();
-                // display success message
-                $this->messageManager->addSuccess(__('You have deleted the object.'));
-                // go to grid
-                return $resultRedirect->setPath('*/*/');
+                $this->repository->deleteById($id);
+                $this->messageManager->addSuccessMessage(__('Post has been deleted.'));
             } catch (\Exception $e) {
-                // display error message
-                $this->messageManager->addError($e->getMessage());
-                // go back to edit form
-                return $resultRedirect->setPath('*/*/edit', ['id' => $id]);
+                $this->logger->error($e->getMessage());
+                $this->messageManager->addErrorMessage(_('Post can\'t delete'));
+                return $this->doRefererRedirect();
             }
+        } else {
+            $this->logger->error(
+                sprintf("Require parameter `%s` is missing", static::QUERY_PARAM_ID)
+            );
+            $this->messageManager->addMessage(__('No item to delete'));
         }
-        // display error message
-        $this->messageManager->addError(__('We can not find an object to delete.'));
-        // go to grid
-        return $resultRedirect->setPath('*/*/');
-        
-    }    
-    
+        return $this->redirectToGrid();
+    }
 }

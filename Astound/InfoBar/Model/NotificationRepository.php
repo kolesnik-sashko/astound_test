@@ -6,6 +6,7 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
+use Magento\Framework\Api\SortOrder;
 
 use Astound\InfoBar\Api\NotificationRepositoryInterface;
 use Astound\InfoBar\Api\Data\NotificationInterface;
@@ -15,14 +16,33 @@ use Astound\InfoBar\Model\ResourceModel\Notification as ResourceModel;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
+    /**
+     * @var \Astound\InfoBar\Model\NotificationFactory
+     */
     protected $objectFactory;
 
+    /**
+     * @var CollectionFactory
+     */
     protected $collectionFactory;
 
+    /**
+     * @var SearchResultsInterfaceFactory
+     */
     protected $searchResultsFactory;
 
+    /**
+     * @var ResourceModel
+     */
     protected $resourceModel;
 
+    /**
+     * NotificationRepository constructor.
+     * @param NotificationFactory $objectFactory
+     * @param CollectionFactory $collectionFactory
+     * @param SearchResultsInterfaceFactory $searchResultsFactory
+     * @param ResourceModel $resourceModel
+     */
     public function __construct(
         NotificationFactory $objectFactory,
         CollectionFactory $collectionFactory,
@@ -36,29 +56,19 @@ class NotificationRepository implements NotificationRepositoryInterface
         $this->resourceModel        = $resourceModel;
     }
 
-    /**
-     * @param NotificationInterface $notification
-     * @return NotificationInterface
-     * @throws CouldNotSaveException
-     */
+    /** {@inheritdoc} */
     public function save(NotificationInterface $notification)
     {
         try {
             $this->resourceModel->save($notification);
         }
-        catch(\Exception $e)
-        {
+        catch(\Exception $e) {
             throw new CouldNotSaveException(__($e->getMessage()));
         }
-
         return $notification;
     }
 
-    /**
-     * @param $id
-     * @return Notification
-     * @throws NoSuchEntityException
-     */
+    /** {@inheritdoc} */
     public function get($id)
     {
         $notification = $this->getNotificationObject();
@@ -70,11 +80,7 @@ class NotificationRepository implements NotificationRepositoryInterface
         return $notification;
     }
 
-    /**
-     * @param NotificationInterface $object
-     * @return NotificationRepositoryInterface
-     * @throws CouldNotDeleteException
-     */
+    /** {@inheritdoc} */
     public function delete(NotificationInterface $notification)
     {
         try {
@@ -85,19 +91,13 @@ class NotificationRepository implements NotificationRepositoryInterface
         return $this;
     }
 
-    /**
-     * @param $id
-     * @return NotificationRepositoryInterface
-     */
+    /** {@inheritdoc} */
     public function deleteById($id)
     {
         return $this->delete($this->get($id));
     }
 
-    /**
-     * @param SearchCriteriaInterface $criteria
-     * @return \Magento\Framework\Api\SearchResultsInterface
-     */
+    /** {@inheritdoc} */
     public function getList(SearchCriteriaInterface $criteria)
     {
         $searchResults = $this->searchResultsFactory->create();

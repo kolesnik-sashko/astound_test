@@ -11,10 +11,21 @@ use Astound\InfoBar\Model\NotificationFactory;
 
 class InstallData implements InstallDataInterface
 {
+    /**
+     * @var NotificationFactory
+     */
     protected $factory;
 
+    /**
+     * @var Data
+     */
     protected $helper;
 
+    /**
+     * InstallData constructor.
+     * @param NotificationFactory $factory
+     * @param Data $helper
+     */
     public function __construct(
         NotificationFactory $factory,
         Data $helper
@@ -24,6 +35,10 @@ class InstallData implements InstallDataInterface
         $this->helper  = $helper;
     }
 
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @param ModuleContextInterface $context
+     */
     public function install(
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context

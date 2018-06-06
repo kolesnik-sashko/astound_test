@@ -115,16 +115,6 @@
                 </item>
             </argument>
         </column>
-        <!--<actionsColumn name="actions" class="Astound\InfoBar\Ui\Component\Listing\Column\Astoundnotification\PageActions">-->
-            <!--<argument name="data" xsi:type="array">-->
-                <!--<item name="config" xsi:type="array">-->
-                    <!--<item name="resizeEnabled" xsi:type="boolean">false</item>-->
-                    <!--<item name="resizeDefaultWidth" xsi:type="string">107</item>-->
-                    <!--<item name="indexField" xsi:type="string">entity_id</item>-->
-                    <!--<item name="sortOrder" xsi:type="number">200</item>-->
-                <!--</item>-->
-            <!--</argument>-->
-        <!--</actionsColumn>-->
         <actionsColumn name="actions" class="Magento\Sales\Ui\Component\Listing\Column\ViewAction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

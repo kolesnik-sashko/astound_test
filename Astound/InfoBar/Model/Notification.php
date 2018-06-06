@@ -16,6 +16,9 @@ class Notification extends AbstractModel implements NotificationInterface, Ident
         $this->_init(ResourceModel::class);
     }
 
+    /**
+     * @return array
+     */
     public function getIdentities()
     {
         return [NotificationInterface::CACHE_TAG . '_' . $this->getId()];
@@ -74,15 +77,15 @@ class Notification extends AbstractModel implements NotificationInterface, Ident
     }
 
     /** {@inheritdoc} */
-    public function getOrder()
+    public function getSortOrder()
     {
-        return $this->_getData(SchemaInterface::ORDER_FIELD);
+        return $this->_getData(SchemaInterface::SORT_ORDER_FIELD);
     }
 
     /** {@inheritdoc} */
-    public function setOrder($order)
+    public function setSortOrder($order)
     {
-        $this->setData(SchemaInterface::ORDER_FIELD, $order);
+        $this->setData(SchemaInterface::SORT_ORDER_FIELD, $order);
         return $this;
     }
 }

@@ -2,12 +2,18 @@
 
 namespace Astound\InfoBar\Controller\Adminhtml\Notification;
 
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+
 use Astound\InfoBar\Controller\Adminhtml\AbstractAction;
 
 class Save extends AbstractAction
 {
     const ACL_RESOURCE = 'Astound_Infobar::notification_save';
 
+    /**
+     * @return ResponseInterface | ResultInterface
+     */
     public function execute()
     {
         $isPost = $this->getRequest()->getPost();

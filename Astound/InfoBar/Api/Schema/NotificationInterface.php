@@ -11,7 +11,7 @@ interface NotificationInterface
     const CONTENT_FIELD          = 'content';
     const STORE_VIEW_FIELD       = 'store';
     const STATUS_FIELD           = 'status';
-    const ORDER_FIELD            = 'order';
+    const SORT_ORDER_FIELD       = 'sort_order';
     const BACKGROUND_COLOR_FIELD = 'background_color';
 
 }
