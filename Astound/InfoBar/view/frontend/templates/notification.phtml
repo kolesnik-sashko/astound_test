@@ -2,7 +2,7 @@
 <?php if($block->getNotifCount()): ?>
 <div>Notifications</div>
     <?php foreach($block->getNotifications()->getItems() as $item): ?>
-        <div style="background: <?php echo $item->getBackgroundColor();?>">
+        <div style="background-color: #<?php echo $item->getBackgroundColor();?>;">
             <p><?php echo $item->getTitle(); ?></p>
             <p><?php echo $item->getContent(); ?></p>
         </div>
