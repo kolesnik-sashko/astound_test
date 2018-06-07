@@ -32,7 +32,7 @@ abstract class AbstractAction extends Action
     const MENU_ITEM             = 'Magento_Backend::marketing';
     const PAGE_TITLE            = 'Info Bar';
     const BREADCRUMB_TITLE      = 'Info Bar';
-    const QUERY_PARAM_ID        = 'id';
+    const QUERY_PARAM_ID        = 'entity_id';
 
     /**
      * @var Registry

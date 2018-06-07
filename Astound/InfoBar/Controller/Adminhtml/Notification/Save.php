@@ -31,7 +31,7 @@ class Save extends AbstractAction
                 $this->repository->save($model);
                 $this->messageManager->addSuccessMessage(__('Notification has been saved.'));
                 if ($this->getRequest()->getParam('back')) {
-                    return $this->_redirect('*/*/edit', ['id' => $model->getId(), '_current' => true]);
+                    return $this->_redirect('*/*/edit', ['entity_id' => $model->getId(), '_current' => true]);
                 }
                 return $this->redirectToGrid();
             } catch (\Exception $e) {
@@ -40,7 +40,7 @@ class Save extends AbstractAction
             }
             $this->_getSession()->setFormData($formData);
             return (!empty($model->getId())) ?
-                $this->_redirect('*/*/edit', ['id' => $model->getId()])
+                $this->_redirect('*/*/edit', ['entity_id' => $model->getId()])
                 : $this->_redirect('*/*/create');
         }
         return $this->doRefererRedirect();
