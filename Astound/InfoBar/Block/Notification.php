@@ -71,7 +71,6 @@ class Notification extends Template
     {
         if(!$this->notifications){
             $filters[] = $this->filterBuilder->setField(SchemaInterface::STATUS_FIELD)->setValue(1)->create();
-            $filters[] = $this->filterBuilder->setField(SchemaInterface::STATUS_FIELD)->setValue(1)->create();
             $this->searchCriteriaBuilder->addFilters($filters);
             $sortOrder = $this->sortOrderBuilder->setField(SchemaInterface::SORT_ORDER_FIELD)
                 ->setDirection(SortOrder::SORT_ASC)->create();

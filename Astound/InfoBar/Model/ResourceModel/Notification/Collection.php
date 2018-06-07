@@ -17,17 +17,43 @@ class Collection extends AbstractCollection
         $this->_init(Model::class,ResourceModel::class);
     }
 
+    /**
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return $this
+     */
     public function load($printQuery = false, $logQuery = false)
     {
         if ($this->isLoaded()) {
             return $this;
         }
         parent::load($printQuery, $logQuery);
-        $this->_addStoreData();
+        $this->addStoreData();
         return $this;
     }
 
-    protected function _addStoreData()
+    /**
+     * @param $storeId
+     * @return $this
+     */
+    public function addStoreFilter($storeId)
+    {
+        $inCond = $this->getConnection()->prepareSqlCondition('store.store_id', ['in' => $storeId]);
+        $this->getSelect()->join(
+            ['store' => $this->getNotifStoreTable()],
+            'main_table.entity_id=store.notification_id',
+            []
+        );
+        $this->getSelect()->where($inCond);
+        return $this;
+    }
+
+    /**
+     * Add store data
+     *
+     * @return void
+     */
+    protected function addStoreData()
     {
         $connection = $this->getConnection();
 
@@ -54,6 +80,9 @@ class Collection extends AbstractCollection
         }
     }
 
+    /**
+     * @return string
+     */
     protected function getNotifStoreTable()
     {
         if ($this->notificationStoreTable === null) {

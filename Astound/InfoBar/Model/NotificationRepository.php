@@ -7,6 +7,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
 use Magento\Framework\Api\SortOrder;
+use Magento\Store\Model\StoreManagerInterface;
 
 use Astound\InfoBar\Api\NotificationRepositoryInterface;
 use Astound\InfoBar\Api\Data\NotificationInterface;
@@ -37,23 +38,30 @@ class NotificationRepository implements NotificationRepositoryInterface
     protected $resourceModel;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * NotificationRepository constructor.
-     * @param NotificationFactory $objectFactory
+     * @param \Astound\InfoBar\Model\NotificationFactory $objectFactory
      * @param CollectionFactory $collectionFactory
      * @param SearchResultsInterfaceFactory $searchResultsFactory
      * @param ResourceModel $resourceModel
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         NotificationFactory $objectFactory,
         CollectionFactory $collectionFactory,
         SearchResultsInterfaceFactory $searchResultsFactory,
-        ResourceModel $resourceModel
-    )
-    {
+        ResourceModel $resourceModel,
+        StoreManagerInterface $storeManager
+    ) {
         $this->objectFactory        = $objectFactory;
         $this->collectionFactory    = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->resourceModel        = $resourceModel;
+        $this->storeManager         = $storeManager;
     }
 
     /** {@inheritdoc} */
@@ -126,6 +134,7 @@ class NotificationRepository implements NotificationRepositoryInterface
                 );
             }
         }
+        $collection->addStoreFilter($this->storeManager->getStore()->getId());
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
         $objects = [];                                     
