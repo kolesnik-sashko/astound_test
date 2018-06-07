@@ -29,8 +29,7 @@ class InstallData implements InstallDataInterface
     public function __construct(
         NotificationFactory $factory,
         Data $helper
-    )
-    {
+    ) {
         $this->factory = $factory;
         $this->helper  = $helper;
     }
@@ -48,7 +47,8 @@ class InstallData implements InstallDataInterface
             $notification->setTitle('Title #' . $i)
                  ->setContent($this->helper->getTestContent($i))
                  ->setBackgroundColor('6AE131')
-                 ->setOrder(rand(1, 10))
+                 ->setSortOrder(rand(1, 10))
+                 ->setStores([1])
                  ->save();
         }
     }
